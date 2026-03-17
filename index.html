@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Richard Bawa — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+    /* ── RESET & TOKENS ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0B1F2E;
+      --teal:    #0D7377;
+      --teal-lt: #14A7AC;
+      --mint:    #3CDBC0;
+      --sand:    #F5EFE6;
+      --sand-dk: #EAE0D0;
+      --white:   #FFFFFF;
+      --muted:   #6B8A99;
+      --text:    #1A2E3B;
+      --card:    #FFFFFF;
+      --border:  #D9E8EC;
+
+      --ff-display: 'DM Serif Display', Georgia, serif;
+      --ff-body:    'DM Sans', sans-serif;
+
+      --r-sm: 6px;
+      --r-md: 12px;
+      --r-lg: 20px;
+
+      --shadow-sm: 0 2px 8px rgba(11,31,46,0.07);
+      --shadow-md: 0 6px 24px rgba(11,31,46,0.10);
+      --shadow-lg: 0 16px 48px rgba(11,31,46,0.14);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ───────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(245,239,230,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: var(--shadow-md); }
+
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 1.25rem;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: .01em;
+    }
+    .nav-logo span { color: var(--teal); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ────────────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 30%, rgba(13,115,119,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(60,219,192,0.08) 0%, transparent 50%);
+    }
+
+    /* geometric accent shapes */
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: 8%; right: 5%;
+      width: 320px; height: 320px;
+      border: 1.5px solid rgba(13,115,119,0.18);
+      border-radius: 50%;
+      animation: spin 40s linear infinite;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      top: 15%; right: 12%;
+      width: 180px; height: 180px;
+      border: 1px solid rgba(60,219,192,0.22);
+      border-radius: 50%;
+      animation: spin 28s linear infinite reverse;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 3rem 4rem 5rem;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp .6s ease forwards .1s;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 2px;
+      background: var(--mint);
+    }
+
+    .hero-name {
+      font-family: var(--ff-display);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: .5rem;
+      opacity: 0;
+      animation: fadeUp .7s ease forwards .2s;
+    }
+    .hero-name em {
+      display: block;
+      font-style: italic;
+      color: var(--teal);
+    }
+
+    .hero-title {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp .7s ease forwards .35s;
+    }
+
+    .hero-summary {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp .7s ease forwards .5s;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .7s ease forwards .65s;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.6rem;
+      border-radius: 50px;
+      font-family: var(--ff-body);
+      font-size: .9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    .btn-primary {
+      background: var(--teal);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--teal-lt); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--teal);
+      border: 1.5px solid var(--teal);
+    }
+    .btn-outline:hover { background: rgba(13,115,119,0.06); }
+
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 4rem 4rem 2rem;
+      position: relative;
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 380px;
+      opacity: 0;
+      animation: fadeUp .8s ease forwards .4s;
+    }
+
+    .hero-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--mint) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .hero-card h3 {
+      font-family: var(--ff-display);
+      font-size: 1.3rem;
+      color: var(--navy);
+      margin-bottom: .25rem;
+    }
+    .hero-card p {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-val {
+      display: block;
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      color: var(--teal);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: .72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tag {
+      font-size: .75rem;
+      font-weight: 500;
+      padding: .3rem .75rem;
+      border-radius: 50px;
+      background: rgba(13,115,119,0.08);
+      color: var(--teal);
+      border: 1px solid rgba(13,115,119,0.18);
+    }
+
+    /* ── SECTION SHELL ───────────────────────────────────────────────────── */
+    section { padding: 6rem 5rem; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px; height: 2px;
+      background: var(--mint);
+    }
+
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-title em { color: var(--teal); font-style: italic; }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ───────────────────────────────────────────────────────────── */
+    #about {
+      background: var(--navy);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    #about::before {
+      content: '';
+      position: absolute;
+      right: -100px; top: -100px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(13,115,119,0.25) 0%, transparent 70%);
+    }
+    #about .section-label { color: var(--mint); }
+    #about .section-label::before { background: var(--mint); }
+    #about .section-title { color: var(--white); }
+    #about .section-sub { color: rgba(255,255,255,0.6); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 1.25rem;
+    }
+
+    .about-facts {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .fact-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: background .2s;
+    }
+    .fact-card:hover { background: rgba(255,255,255,0.09); }
+
+    .fact-icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      background: rgba(13,115,119,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .fact-title {
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--mint);
+      margin-bottom: .2rem;
+    }
+    .fact-body {
+      font-size: .85rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.55;
+    }
+
+    /* ── EDUCATION ───────────────────────────────────────────────────────── */
+    #education { background: var(--sand); }
+
+    .edu-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      position: relative;
+    }
+    .edu-timeline::before {
+      content: '';
+      position: absolute;
+      left: 23px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--teal), var(--mint), transparent);
+    }
+
+    .edu-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .edu-dot {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+    }
+
+    .edu-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.75rem 2rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .edu-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .edu-degree {
+      font-family: var(--ff-display);
+      font-size: 1.25rem;
+      color: var(--navy);
+      margin-bottom: .25rem;
+    }
+    .edu-school {
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--teal);
+      margin-bottom: .15rem;
+    }
+    .edu-date {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .edu-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .edu-bullets li {
+      font-size: .875rem;
+      color: var(--text);
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.55;
+    }
+    .edu-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--mint);
+      font-size: .75rem;
+      top: .05em;
+    }
+
+    /* ── EXPERIENCE ──────────────────────────────────────────────────────── */
+    #experience { background: var(--sand-dk); }
+
+    .exp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .exp-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .exp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--mint));
+    }
+
+    .exp-role {
+      font-family: var(--ff-display);
+      font-size: 1.2rem;
+      color: var(--navy);
+      margin-bottom: .2rem;
+    }
+    .exp-company {
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--teal);
+      margin-bottom: .15rem;
+    }
+    .exp-date {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+    .exp-bullets li {
+      font-size: .875rem;
+      color: var(--text);
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.55;
+    }
+    .exp-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--mint);
+      font-size: .75rem;
+      top: .05em;
+    }
+
+    /* ── PROJECTS ────────────────────────────────────────────────────────── */
+    #projects { background: var(--navy); }
+    #projects .section-label { color: var(--mint); }
+    #projects .section-label::before { background: var(--mint); }
+    #projects .section-title { color: var(--white); }
+    #projects .section-sub { color: rgba(255,255,255,0.55); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-lg);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background .25s, transform .25s;
+    }
+    .project-card:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-3px);
+    }
+    .project-card.featured {
+      grid-row: span 2;
+      background: rgba(13,115,119,0.15);
+      border-color: rgba(13,115,119,0.4);
+    }
+
+    .project-badge {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .25rem .75rem;
+      border-radius: 50px;
+      background: var(--mint);
+      color: var(--navy);
+      margin-bottom: 1.25rem;
+    }
+    .project-badge.secondary {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .project-title {
+      font-family: var(--ff-display);
+      font-size: 1.4rem;
+      color: var(--white);
+      margin-bottom: .5rem;
+      line-height: 1.25;
+    }
+    .project-sub {
+      font-size: .85rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.25rem;
+    }
+    .project-desc {
+      font-size: .9rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .meta-row {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+    }
+    .meta-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mint);
+      min-width: 70px;
+      padding-top: .1em;
+    }
+    .meta-val {
+      font-size: .82rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-top: 1rem;
+    }
+    .tech-tag {
+      font-size: .72rem;
+      font-weight: 500;
+      padding: .2rem .65rem;
+      border-radius: 50px;
+      background: rgba(60,219,192,0.12);
+      color: var(--mint);
+      border: 1px solid rgba(60,219,192,0.25);
+    }
+
+    /* ── SKILLS ──────────────────────────────────────────────────────────── */
+    #skills { background: var(--sand); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .skill-group:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .skill-group-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .skill-group-title {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .7rem;
+    }
+    .skill-name {
+      font-size: .875rem;
+      color: var(--text);
+      flex: 1;
+    }
+    .skill-bar-bg {
+      width: 80px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--mint));
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* ── CONTACT ─────────────────────────────────────────────────────────── */
+    #contact {
+      background: var(--navy);
+      text-align: center;
+    }
+    #contact .section-label { color: var(--mint); justify-content: center; }
+    #contact .section-label::before { background: var(--mint); }
+    #contact .section-title { color: var(--white); }
+    #contact .section-sub {
+      color: rgba(255,255,255,0.55);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--r-lg);
+      padding: 1.75rem 2.25rem;
+      text-align: center;
+      text-decoration: none;
+      transition: background .2s, transform .2s;
+      min-width: 200px;
+    }
+    .contact-card:hover {
+      background: rgba(13,115,119,0.25);
+      transform: translateY(-3px);
+    }
+    .contact-card-icon {
+      font-size: 1.75rem;
+      margin-bottom: .75rem;
+    }
+    .contact-card-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mint);
+      margin-bottom: .3rem;
+    }
+    .contact-card-val {
+      font-size: .9rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────────────────── */
+    footer {
+      background: #07141E;
+      padding: 2rem 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer p {
+      font-size: .8rem;
+      color: rgba(255,255,255,0.3);
+    }
+    footer a {
+      font-size: .8rem;
+      color: var(--mint);
+      text-decoration: none;
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ──────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      section { padding: 4rem 2rem; }
+      nav { padding: 1rem 1.5rem; }
+      footer { padding: 1.5rem 2rem; flex-direction: column; gap: .5rem; text-align: center; }
+
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 5rem 2rem 2rem; }
+      .hero-right { display: none; }
+
+      .about-grid,
+      .exp-grid,
+      .projects-grid,
+      .skills-grid { grid-template-columns: 1fr; }
+
+      .project-card.featured { grid-row: auto; }
+
+      .nav-links { display: none; }
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#hero">Richard<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-left">
+      <span class="hero-eyebrow">Mechanical Engineering &amp; Informatics</span>
+      <h1 class="hero-name">
+        Richard<br>
+        <em>Nana Kwame</em>
+        Appiah Bawa
+      </h1>
+      <p class="hero-title">MSc Informatics · Quality &amp; Mechanical Engineering &amp; Data Analytics Professional</p>
+      <p class="hero-summary">
+        Quality &amp; Mechanical Engineering Professional and Data Analytics Professional with hands-on experience in ISO 9001:2015
+        Quality Management Systems, quality control, and industrial maintenance environments.
+        Background in mechanical engineering with practical experience in drafting and implementing
+        SOPs, defect tracking, and continuous improvement initiatives.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#projects">View My Work</a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/richard-bawa" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-avatar">RB</div>
+        <h3>Richard Bawa</h3>
+        <p>Brampton, ON &nbsp;·&nbsp; kwamebawa100@gmail.com</p>
+        <div class="tag-cloud">
+          <span class="tag">ISO 9001:2015</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">R</span>
+          <span class="tag">Python</span>
+          <span class="tag">Root Cause Analysis</span>
+          <span class="tag">Mechanical Systems</span>
+        </div>
+        <div class="stat-row">
+          <div class="stat">
+            <span class="stat-val">3.7</span>
+            <span class="stat-label">GPA</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">5+</span>
+            <span class="stat-label">Yrs Exp</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">4</span>
+            <span class="stat-label">Projects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ ABOUT ═══════ -->
+  <section id="about">
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">Quality &amp; Mechanical Engineering &amp; Data Analytics<br><em>Professional</em></h2>
+    <p class="section-sub">Hands-on experience across quality management systems, industrial maintenance, and data-driven analysis.</p>
+
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          Quality &amp; Mechanical Engineering Professional with hands-on experience in ISO 9001:2015
+          Quality Management Systems, quality control, and industrial maintenance environments.
+        </p>
+        <p>
+          Background in mechanical engineering with practical experience in drafting and implementing
+          SOPs, defect tracking, and continuous improvement initiatives.
+        </p>
+        <p>
+          Experienced in heavy equipment and vehicle maintenance, quality inspections, data-driven
+          analysis, and cross-functional teamwork in structured, safety-focused environments.
+        </p>
+      </div>
+
+      <div class="about-facts">
+        <div class="fact-card">
+          <div class="fact-icon">🎓</div>
+          <div>
+            <div class="fact-title">Master of Science in Informatics</div>
+            <div class="fact-body">Northeastern University | GPA: 3.7 | Completed: March 2026</div>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">🏭</div>
+          <div>
+            <div class="fact-title">Quality Control Inspector / Technician</div>
+            <div class="fact-body">Japan Motors Assembly Plant — ISO 9001:2015 QMS, Tableau dashboards, NCR management, root cause analysis</div>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">🚛</div>
+          <div>
+            <div class="fact-title">Mechanic / Technician</div>
+            <div class="fact-body">Custom Truck Services — routine inspections, preventive maintenance, diagnostics, repairs, and traceability documentation</div>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">📍</div>
+          <div>
+            <div class="fact-title">Based in Brampton, Ontario</div>
+            <div class="fact-body">(647) 980-6619 &nbsp;·&nbsp; kwamebawa100@gmail.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ EDUCATION ═══════ -->
+  <section id="education">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Academic <em>background</em></h2>
+    <p class="section-sub">Two degrees forming a rare combination — mechanical systems engineering and applied informatics.</p>
+
+    <div class="edu-timeline">
+
+      <div class="edu-item reveal">
+        <div class="edu-dot">🎓</div>
+        <div class="edu-card">
+          <div class="edu-degree">Master of Science in Informatics</div>
+          <div class="edu-school">Northeastern University</div>
+          <div class="edu-date">GPA: 3.7 &nbsp;|&nbsp; Completed: March 2026</div>
+          <ul class="edu-bullets">
+            <li><strong>Informatics Course Project</strong> – Used SQL to extract and analyze defect data from manufacturing logs, identifying recurring quality issues. Visualized trends with Tableau and used Python to analyze production cycle times and detect assembly bottlenecks.</li>
+            <li><strong>Vehicle Defect Analysis Project</strong> – Applied R for data cleaning and preprocessing, improving defect prediction accuracy. Used SQL to analyze manufacturing data and identify quality trends, enhancing process efficiency.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="edu-item reveal">
+        <div class="edu-dot">⚙️</div>
+        <div class="edu-card">
+          <div class="edu-degree">Bachelor of Technology in Mechanical Engineering</div>
+          <div class="edu-school">Takoradi Technical University</div>
+          <div class="edu-date">Completed: January 2020</div>
+          <ul class="edu-bullets">
+            <li><strong>Automated Power Window with Air-Conditioning Project</strong> – Designed and modified an automated vehicle power window system with an integrated timer that rolls windows up in 10 seconds and automatically activates the air conditioning system.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ EXPERIENCE ═══════ -->
+  <section id="experience">
+    <div class="section-label">Work Experience</div>
+    <h2 class="section-title">Professional <em>history</em></h2>
+    <p class="section-sub">Hands-on roles across automotive engineering, quality management, and technical operations.</p>
+
+    <div class="exp-grid">
+
+      <div class="exp-card reveal">
+        <div class="exp-role">Mechanic / Technician</div>
+        <div class="exp-company">Custom Truck Services</div>
+        <div class="exp-date">December 2024 – Present</div>
+        <ul class="exp-bullets">
+          <li>Carry out routine inspections, preventive maintenance, diagnostics, and repairs on trucks to ensure safe and reliable operation.</li>
+          <li>Document maintenance activities, defects, and corrective actions, supporting traceability and continuous improvement efforts.</li>
+        </ul>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-role">Quality Control Inspector / Technician</div>
+        <div class="exp-company">Japan Motors Assembly Plant</div>
+        <div class="exp-date">December 2022 – August 2024</div>
+        <ul class="exp-bullets">
+          <li>Actively supported the drafting, implementation, and maintenance of ISO 9001:2015 Quality Management System (QMS) processes.</li>
+          <li>Used Excel to extract and store vehicle torque confirmation data for traceability, ensuring records were available for safety investigations.</li>
+          <li>Designed Tableau dashboards to display weekly quality reports, visualizing defect trends and key performance indicators (KPIs) to improve reporting efficiency.</li>
+          <li>Managed NCR (Non-Conformance Report) processes, documenting defects, coordinating corrective actions, and supporting root cause analysis.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ PROJECTS ═══════ -->
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">Selected <em>work</em></h2>
+    <p class="section-sub">Projects spanning healthcare informatics, manufacturing analytics, quality engineering, and embedded systems design.</p>
+
+    <div class="projects-grid">
+
+      <!-- FEATURED: HConnect1 / Nytila Labs -->
+      <div class="project-card featured reveal">
+        <span class="project-badge">Capstone · Nytila Labs · Featured</span>
+        <h3 class="project-title">HConnect1 — Remote Patient Monitoring Dashboard</h3>
+        <p class="project-sub">Nytila Labs · Northeastern University Capstone · 2025–2026</p>
+        <p class="project-desc">
+          A full-stack, PIPEDA/PHIPA-compliant web-based remote patient monitoring platform built for
+          Canadian healthcare providers. The system allows clinical staff to monitor patient vital signs,
+          manage alerts, coordinate care, and communicate securely. Supports four user roles: Doctor,
+          Nurse, Administrator, and Patient.
+        </p>
+        <p class="project-desc">
+          The platform automatically compares each vital sign reading against clinically sourced
+          thresholds and generates alerts. It tracks seven health metrics per patient — wellness,
+          nutrition, stress, physical activity, depression risk, obesity, and movement — scored on a
+          0 to 1000 scale with trend indicators. Built and tested by a five-person team with 151
+          automated tests, all passing at submission.
+        </p>
+        <div class="project-meta">
+          <div class="meta-row">
+            <span class="meta-label">My Role</span>
+            <span class="meta-val">Project Coordinator &amp; UX Design — coordinated team workflows and deliverables, led UX design across all four clinical role dashboards (Doctor, Nurse, Administrator, Patient), facilitated user testing sessions, and managed interface design decisions throughout the project lifecycle</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Impact</span>
+            <span class="meta-val">151 automated tests passing · 4 user roles · 7 health metrics per patient · ~36,000 seeded vital readings · PIPEDA &amp; PHIPA compliant</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Skills</span>
+            <span class="meta-val">System design, user testing, privacy compliance, clinical workflow mapping, cross-functional team collaboration</span>
+          </div>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">HTML / CSS</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">User Testing</span>
+          <span class="tech-tag">PIPEDA</span>
+          <span class="tech-tag">PHIPA</span>
+          <span class="tech-tag">GCP</span>
+          <span class="tech-tag">SQL</span>
+        </div>
+      </div>
+
+      <!-- Informatics Course Project -->
+      <div class="project-card reveal">
+        <span class="project-badge secondary">Academic · Informatics Course Project</span>
+        <h3 class="project-title">Manufacturing Defect &amp; Bottleneck Analysis</h3>
+        <p class="project-sub">Northeastern University · MSc Informatics</p>
+        <p class="project-desc">
+          Used SQL to extract and analyze defect data from manufacturing logs, identifying recurring
+          quality issues. Visualized trends with Tableau and used Python to analyze production cycle
+          times and detect assembly bottlenecks.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">SQL</span>
+          <span class="tech-tag">Tableau</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Process Analysis</span>
+        </div>
+      </div>
+
+      <!-- Vehicle Defect Analysis -->
+      <div class="project-card reveal">
+        <span class="project-badge secondary">Academic · Vehicle Defect Analysis</span>
+        <h3 class="project-title">Vehicle Defect Analysis Project</h3>
+        <p class="project-sub">Northeastern University · MSc Informatics</p>
+        <p class="project-desc">
+          Applied R for data cleaning and preprocessing, improving defect prediction accuracy.
+          Used SQL to analyze manufacturing data and identify quality trends, enhancing process
+          efficiency.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">R</span>
+          <span class="tech-tag">SQL</span>
+          <span class="tech-tag">Data Cleaning</span>
+          <span class="tech-tag">Predictive Analytics</span>
+        </div>
+      </div>
+
+      <!-- Automated Power Window -->
+      <div class="project-card reveal">
+        <span class="project-badge secondary">Engineering · BTech Final Year</span>
+        <h3 class="project-title">Automated Power Window with Air-Conditioning</h3>
+        <p class="project-sub">Takoradi Technical University · BTech Mechanical Engineering</p>
+        <p class="project-desc">
+          Designed and modified an automated vehicle power window system with an integrated timer
+          that rolls windows up in 10 seconds and automatically activates the air conditioning system.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">Mechanical Design</span>
+          <span class="tech-tag">Embedded Systems</span>
+          <span class="tech-tag">Automation</span>
+          <span class="tech-tag">Circuit Design</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ SKILLS ═══════ -->
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <h2 class="section-title">Technical &amp; professional <em>capabilities</em></h2>
+    <p class="section-sub">Skills drawn directly from professional experience and academic training.</p>
+
+    <div class="skills-grid">
+
+      <div class="skill-group reveal">
+        <div class="skill-group-icon">📊</div>
+        <div class="skill-group-title">Data Analysis &amp; Visualization</div>
+        <div class="skill-item"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">R</span><div class="skill-bar-bg"><div class="skill-bar" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Tableau</span><div class="skill-bar-bg"><div class="skill-bar" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Excel (analysis, dashboards, reporting)</span><div class="skill-bar-bg"><div class="skill-bar" style="width:90%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar" style="width:72%"></div></div></div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-icon">✅</div>
+        <div class="skill-group-title">Process Improvement &amp; Quality Control</div>
+        <div class="skill-item"><span class="skill-name">ISO 9001:2015 Compliance</span><div class="skill-bar-bg"><div class="skill-bar" style="width:92%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">SOP Development &amp; Review</span><div class="skill-bar-bg"><div class="skill-bar" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Root Cause Analysis (5 Whys)</span><div class="skill-bar-bg"><div class="skill-bar" style="width:90%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Process Monitoring</span><div class="skill-bar-bg"><div class="skill-bar" style="width:86%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Continuous Improvement</span><div class="skill-bar-bg"><div class="skill-bar" style="width:88%"></div></div></div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-icon">🔧</div>
+        <div class="skill-group-title">Mechanical Engineering &amp; Automotive</div>
+        <div class="skill-item"><span class="skill-name">Automobile Technician</span><div class="skill-bar-bg"><div class="skill-bar" style="width:93%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Maintenance &amp; Technical Problem-Solving</span><div class="skill-bar-bg"><div class="skill-bar" style="width:92%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Preventive Maintenance</span><div class="skill-bar-bg"><div class="skill-bar" style="width:91%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Diagnostics &amp; Repair</span><div class="skill-bar-bg"><div class="skill-bar" style="width:90%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Defect Tracking &amp; Traceability</span><div class="skill-bar-bg"><div class="skill-bar" style="width:88%"></div></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ CONTACT ═══════ -->
+  <section id="contact">
+    <div class="section-label">Get in Touch</div>
+    <h2 class="section-title">Let's <em>connect</em></h2>
+    <p class="section-sub">
+      Open to opportunities in quality engineering, mechanical systems, data analytics, and informatics roles in the Greater Toronto Area and beyond.
+    </p>
+
+    <div class="contact-cards">
+      <a class="contact-card" href="mailto:kwamebawa100@gmail.com">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-val">kwamebawa100@gmail.com</div>
+      </a>
+      <a class="contact-card" href="tel:+16479806619">
+        <div class="contact-card-icon">📞</div>
+        <div class="contact-card-label">Phone</div>
+        <div class="contact-card-val">(647) 980-6619</div>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/richard-bawa" target="_blank" rel="noopener">
+        <div class="contact-card-icon">💼</div>
+        <div class="contact-card-label">LinkedIn</div>
+        <div class="contact-card-val">linkedin.com/in/richard-bawa</div>
+      </a>
+      <a class="contact-card" href="#">
+        <div class="contact-card-icon">📍</div>
+        <div class="contact-card-label">Location</div>
+        <div class="contact-card-val">Brampton, ON · GTA</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Richard Nana Kwame Appiah Bawa</p>
+    <a href="https://www.linkedin.com/in/richard-bawa" target="_blank" rel="noopener">linkedin.com/in/richard-bawa</a>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
